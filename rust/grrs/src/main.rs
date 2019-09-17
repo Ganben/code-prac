@@ -2,6 +2,11 @@ use structopt::StructOpt;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::fs::File;
+use log::{info, warn};
+use std::time::Instant;
+
+use indicatif::{HumanDuration, ProgressBar};
+
 // use std::io::{self, BufRead};
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(StructOpt)]
@@ -13,7 +18,9 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
-fn main() -> std::io::Result<()> {
+
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // println!("Hello, world!");
     // let pattern = std::env::args().nth(1).expect("no pattern given");
     // let path = std::env::args().nth(2).expect("no path given");
@@ -23,9 +30,18 @@ fn main() -> std::io::Result<()> {
     let mut reader = BufReader::new(f);
     let mut line = String::new();
     
-    let content = reader.read_line(&mut line)?;
+
+    // for line in content {
+    //     if line.contains(&args.pattern) {
+    //         println!("{}", line);
+    //     }
+    // }
+    let pb = indicatif::ProgressBar::new(100);
+    for i in 0..100 {
+        // do_hard_work();
+        let content = reader.read_line(&mut line)?;
     //   .expect("reading file faile");
-    while content > 0 {
+        while line != "" {
         
         if line.contains(&args.pattern) {
             println!("{}", line);
@@ -36,10 +52,10 @@ fn main() -> std::io::Result<()> {
         
     }
     line.clear();
-    // for line in content {
-    //     if line.contains(&args.pattern) {
-    //         println!("{}", line);
-    //     }
-    // }
+        pb.println(format!("[+] finished #{}", i));
+        pb.inc(1);
+    }
+    pb.finish_with_message("done");
+
     Ok(())
 }

@@ -44,7 +44,7 @@ ngrams to 2, the example text in the dataset will be a list of single
 words plus bi-grams string.
 
 """
-
+import sys
 import torch
 import torchtext
 from torchtext.datasets import text_classification
@@ -363,6 +363,8 @@ ex_text_str = "MEMPHIS, Tenn. – Four days ago, Jon Rahm was \
 
 vocab = train_dataset.get_vocab()
 model = model.to("cpu")
+PATH = './data/'
+torch.save(model.state_dict(), PATH)
 
 print("This is a %s news" %ag_news_label[predict(ex_text_str, model, vocab, 2)])
 
@@ -375,3 +377,12 @@ print("This is a %s news" %ag_news_label[predict(ex_text_str, model, vocab, 2)])
 # You can find the code examples displayed in this note
 # `here <https://github.com/pytorch/text/tree/master/examples/text_classification>`__.
 #
+if __name__ == '__main__':
+    # load model
+    try:
+        model = TextSentiment(VOCAB_SIZE, EMBED_DIM, NUN_CLASS)
+        model.load_state_dict(torch.load(PATH))
+        model.eval()
+    # init train
+    except:
+        pass

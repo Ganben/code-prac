@@ -24,12 +24,12 @@ USE_CUDA = torch.cuda.is_available()
 device = torch.device("cpu")
 
 """ 
-usage: python chatbot.py command
+usage:" python chatbot.py command
 [train]:  init model, train,
 
 
 
-""" 
+"""
 
 
 corpus_name = "cornell movie-dialogs corpus"

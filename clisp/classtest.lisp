@@ -161,3 +161,26 @@
 ; Default slot writer (illustration only) 
 (defmethod slot-writer (new-value (object object-class))
   (setf (slot-value object 'slot-name) new-value))
+
+(defclass 2d-object () ())
+
+(defclass 2d-centered-object (2d-object)
+  (x :accessor x)
+  (y :accessor y)
+  (orientation :accessor orientation)
+
+(defclass oval (2d-centered-object)
+  (axis-1 :accessor axis-1)
+  (axis-2 :accessor axis-2))
+
+(defclass regular-polygon (2d-centered-object)
+  (n-sides :accessor number-of-sides)
+  (size :accessor size))
+
+(defclass 3d-point ()
+  ((x :accessor point-x :initform 0 :initarg :x
+      :documentation "x coordinate" :type real)
+   (y :accessor point-y :initform 0 :initarg :y
+      :documentation "y coordinate" :type real)
+   (z :accessor point-z :initform 0 :initarg :z
+      :documentation "z coordinate" :type real)))

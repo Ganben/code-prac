@@ -184,3 +184,72 @@
       :documentation "y coordinate" :type real)
    (z :accessor point-z :initform 0 :initarg :z
       :documentation "z coordinate" :type real)))
+
+(some #'(lambda (n) (or (< n 0) (> n 100))) (list 0 1 99 100))
+(every #'(lambda (w) (>= (length w) 5)) (list "bears" "bulls" "racoon"))
+
+(reduce #'* (list 1 2 3 4 5)) (* (* (* (* 1 2) 3) 4) 5) 
+
+(defmethod combo2 ((x number)) (print 'primary) 1)
+(defmethod combo2 :before ((x integer)) (print 'before-integer) 2)
+
+(let ((password nil)
+        (secret nil))
+    (defun set-password (new-passwd)
+      (if password
+        '|Can't - already set|
+        (setq password new-passwd)))
+    (defun change-password (old-passwd new-passwd)
+      (if (eq old-passwd password)
+        (setq password new-passwd)
+        '|Not changed|))
+    (defun set-secret (passwd new-secret)
+      (if (eq passwd password)
+        (setq secret new-secret)
+        '|Wrong password|))
+    (defun get-secret (passwd)
+      (if (eq passwd password)
+        secret
+        '|Sorry|)))
+
+(defun make-secret-keeper ()
+    (let ((password nil)
+          (secret nil))
+      #'(lambda (operation &rest arguments)
+          (ecase operation
+            (set-password
+             (let ((new-passwd (first arguments)))
+               (if password
+                 '|Can't - already set|
+                 (setq password new-passwd))))
+            (change-password
+             (let ((old-passwd (first arguments))
+                   (new-passwd (second arguments)))
+               (if (eq old-passwd password)
+                 (setq password new-passwd)
+                 '|Not changed|)))
+            (set-secret
+             (let ((passwd (first arguments))
+                   (new-secret (second arguments)))
+               (if (eq passwd password)
+                 (setq secret new-secret)
+                 '|Wrong password|)))
+            (get-secret
+             (let ((passwd (first arguments)))
+               (if (eq passwd password)
+                 secret
+                 '|Sorry|)))))))
+; disassemble
+(defun add1 (n) (1+ n))
+(disassemble 'add1)
+  (TWNEI NARGS 4)
+  (MFLR LOC-PC)
+  (BLA .SPSAVECONTEXTVSP)
+  (VPUSH ARG_Z)
+  (LWZ NARGS 331 RNIL)
+  (TWGTI NARGS 0)
+  (LI ARG_Y '1)
+  (LWZ ARG_Z 0 VSP)
+  (BLA .SPRESTORECONTEXT)
+  (MTLR LOC-PC)
+  (BA .SPBUILTIN-PLUS)

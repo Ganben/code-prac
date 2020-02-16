@@ -63,29 +63,88 @@ func (list *LinkedList) RemoveByValue(i int) bool {
 }
 
 func (list *LinkedList) RemoveByIndex(i int) bool {
-
+	if list.head == nil {
+		return false
+	}
+	if i < 0 {
+		return false
+	}
+	if i == 0 {
+		list.head.prev = nil
+		list.head = list.head.next
+		return true
+	}
+	current := list.head
+	for u := 1; u < i; u++ {
+		if current.next.next == nil {
+			return false
+		}
+		current = current.next
+	}
+	if current.next.next != nil {
+		current.next.next.prev = current
+	}
+	current.next = current.next.next
+	return true
 }
 
 func (list *LinkedList) SearchValue(i int) bool {
-
+	if list.head == nil {
+		return false
+	}
+	current := list.head
+	for current != nil {
+		if current.data == i {
+			return true
+		}
+		current = current.next
+	}
+	return false
 }
 
 func (list *LinkedList) GetFirst() (int, bool) {
-
+	if list.head == nil {
+		return 0, false
+	}
+	return list.head.data, true
 }
 
 func (list *LinkedList) GetLast() (int, bool) {
-
+	if list.tail == nil {
+		return 0, false
+	}
+	return list.tail.data, true
 }
 
 func (list *LinkedList) GetSize() int {
-
+	if list.head == nil {
+		return 0
+	}
+	current := list.head
+	size := 0
+	for current != nil {
+		size += 1
+		current = current.next
+	}
+	return size
 }
 
 func (list *LinkedList) GetItemsFromStart() []int {
-
+	var items []int
+	current := list.head
+	for current != nil {
+		items = append(items, current.data)
+		current = current.next
+	}
+	return items
 }
 
 func (list *LinkedList) GetItemsFromEnd() []int {
-	
+	var items []int
+	current := list.tail
+	for current != nil {
+		items = append(items, current.data)
+		current = current.prev
+	}
+	return items
 }

@@ -67,20 +67,67 @@ export default class LinkedList {
      * @param {function} [findparams.callback]
      * @return {LinkedListNode}
      */
-    find() {
+    find({ value = undefined, callback = undefined}) {
+        if (!this.head) {
+            return null;
+        }
+        let currentNode = this.head;
 
+        while (currentNode) {
+            //if callback
+            if (callback && callback(currentNode.value)) {
+                return currentNode;
+            }
+            // if value
+            if (value !== undefined && this.compare.equal(currentNode.value, value)) {
+                return currentNode;
+            }
+        }
     }
     /**
      * @return {LinkedListNode}
      */
     deleteTail() {
+        const deletedTail = this.tail;
+
+        if (this.head === this.tail) {
+            //
+            this.head = null;
+            this.tail = null;
+            return deletedTail;
+        }
+
+        //
+        let currentNode = this.head;
+        while (currentNode.next) {
+            if (!currentNode.next.next) {
+                currentNode.next = null;
+            } else {
+                currentNode = currentNode.next;
+            }
+        }
+        this.tail = currentNode;
+        return deletedTail;
 
     }
     /**
      * @return {LinkedListNode}
      */
     deleteHead() {
+        if (!this.head) {
+            return null;
+        }
 
+        const deletedHead = this.head;
+
+        if (this.head.next) {
+            this.head = this.head.next;
+        } else {
+            this.head = null;
+            this.tail = null;
+        }
+
+        return deletedHead;
     }
 
     /**
@@ -88,25 +135,53 @@ export default class LinkedList {
      * @return {LinkedList} 
      */
     fromArray(values) {
+        values.forEach(value => this.append(value));
+        return this;
 
     }
     /**
      * @return {LinkedListNode[]}
      */
     toArray() {
+        const nodes = [];
 
+        let currentNode = this.head;
+        while (currentNode) {
+            nodes.push(currentNode);
+            currentNode = currentNode.next;
+        }
+        return nodes;
     }
     /**
      * @param {function} [callback]
      * @return {string}
      */
     toString(callback) {
-
+        return this.toArray().map(node => node.toString(callback)).toString();
     }
     /**
      * @return {LinkedList}
      */
     reverse() {
+        let currNode = this.head;
+        let prevNode = null;
+        let nextNode = null;
+
+        while (currNode) {
+            //store next
+            nextNode = currNode.next;
+
+            // change 
+            currNode.next = prevNode;
+
+            // move prev and curr
+            prevNode = currNode;
+            currNode = nextNode;
+        }
+
+        this.tail = this.head;
+        this.head = prevNode;
+        return this;
 
     }
 }

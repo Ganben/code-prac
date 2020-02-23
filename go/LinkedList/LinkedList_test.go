@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestingGetItems(t *testing.T) {
+func TestGetItems(t *testing.T) {
 	random := rand.New(rand.NewSource(time.Now().UnixNano()))
 	array := make([]int, random.Intn(100-10)+10)
 	linkedlist := &LinkedList{}

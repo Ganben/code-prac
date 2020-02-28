@@ -19,4 +19,4 @@ func TestRabinKarp(t *testing.T) {
 	if result == -1 {
 		t.Fail()
 	}
-}
+} 

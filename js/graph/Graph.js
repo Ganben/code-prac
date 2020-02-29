@@ -152,11 +152,21 @@ export default class Graph {
         const adjacentMatrix = Array(vertices.length).fill(null).map(() => {
             return Array(vertices.length).fill(Infinity);
         });
+        //
+        vertices.forEach((vertex, vertexIndex) => {
+            vertex.getNeighbors().forEach((neighbor) => {
+                const neighborIndex = verticesIndices[neighbor.getKey()];
+                adjacentMatrix[vertexIndex][neighborIndex] = this.findEdge(vertex, neighbor).weight;
+            });
+        });
+        return adjacentMatrix;
+
     }
     /**
      * @returns {string}
      */
     toString() {
+        return Object.keys(this.vertices).toString();
 
     }
 }

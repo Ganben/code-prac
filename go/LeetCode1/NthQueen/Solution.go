@@ -11,6 +11,8 @@ func solveNQueens(n int) [][]string {
 	// board := makeboard(n)
 	// qsize = 0
 	qpos = []int{}
+	ans = [][]string{}
+	qstate = [][]int{}
 	backtrack(n, qpos)
 	return ans
 }
@@ -69,7 +71,7 @@ func testboard(n, pn int) bool {
 	if len(qstate) == 0 {
 		return true
 	}
-	if len(qstate) > 2 {
+	if len(qstate) >= 2 {
 		for col, s := range qstate[len(qstate)-2] {
 			switch s {
 			case 1:
@@ -77,11 +79,11 @@ func testboard(n, pn int) bool {
 					qstate[len(qstate)-1][col-1] = shearleft(qstate[len(qstate)-1][col-1])
 				}
 			case 2:
-				if col == 1 {
+				if col == 0 {
 					qstate[len(qstate)-1][col+1] = shearright(qstate[len(qstate)-1][col+1])
-				} else if col > 1 && col < n-1 {
+				} else if col > 0 && col < n-1 {
 					qstate[len(qstate)-1][col+1] = shearright(qstate[len(qstate)-1][col+1])
-					qstate[len(qstate)-1][col-1] = shearleft(qstate[len(qstate)-1][col+1])
+					qstate[len(qstate)-1][col-1] = shearleft(qstate[len(qstate)-1][col-1])
 				} else if col == n-1 {
 					qstate[len(qstate)-1][col-1] = shearleft(qstate[len(qstate)-1][col-1])
 				}
@@ -94,11 +96,11 @@ func testboard(n, pn int) bool {
 		}
 	}
 	if pn == 0 {
-		return qstate[len(qstate)-1][pn+1] == 0
+		return qstate[len(qstate)-1][pn+1] == 0 || qstate[len(qstate)-1][pn+1] == 3
 	} else if pn == n-1 {
-		return qstate[len(qstate)-1][pn-1] == 0
+		return qstate[len(qstate)-1][pn-1] == 0 || qstate[len(qstate)-1][pn-1] == 1
 	} else {
-		return qstate[len(qstate)-1][pn-1] == 0 && qstate[len(qstate)-1][pn+1] == 0
+		return (qstate[len(qstate)-1][pn+1] == 0 || qstate[len(qstate)-1][pn+1] == 3) && (qstate[len(qstate)-1][pn-1] == 0 || qstate[len(qstate)-1][pn-1] == 1)
 	}
 }
 
@@ -111,8 +113,9 @@ func backtrack(n int, qpos []int) {
 	}
 	// eliminate duplicated position
 	availables := []int{}
+	flag := false
 	for i := 0; i < n; i++ {
-		flag := false
+		flag = false
 		for _, pn := range qpos {
 			if pn == i {
 				flag = true
@@ -122,10 +125,12 @@ func backtrack(n int, qpos []int) {
 			availables = append(availables, i)
 		}
 	}
+	// fmt.Printf("availables %v", availables)
 
 	for _, pn := range availables {
 		// test compatible
 		ok := testboard(n, pn)
+		// fmt.Printf("we got %v\n %v is %v\n", qstate, pn, ok)
 		if ok {
 			row := make([]int, n)
 			// 2 means both shear direction

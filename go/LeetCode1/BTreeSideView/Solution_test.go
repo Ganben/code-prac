@@ -21,6 +21,8 @@ func TestSolution(t *testing.T) {
 		pNodes := []*TreeNode{}
 		childNodes := []*TreeNode{}
 		for i := 0; i < len(c.inputs); i++ {
+			pNodes = childNodes
+			childNodes = []*TreeNode{}
 			for j := 0; j < l; j++ {
 
 				if i == 0 {
@@ -34,12 +36,19 @@ func TestSolution(t *testing.T) {
 					l = 2
 					continue
 				}
-				pNodes = childNodes
-				childNodes = []*TreeNode{}
-				if l > 0 {
+				if c.inputs[i]
+				nNode := &TreeNode{
 
 				}
+				childNodes = append(childNodes, nNode)
+
 				l = l * 2
+			}
+			// assign parent-child
+			if l > 0 {
+				for _, el := range pNodes {
+					
+				}
 			}
 
 		}

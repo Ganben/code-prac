@@ -1,14 +1,21 @@
 package solution
 
-func addBinary(a, b string) []int {
+func addBinary(a, b string) string {
 	rarr := make([]int, 1+max(len(a), len(b)))
 	offset := 0
 	for i := len(rarr) - 1; i > 0; i-- {
 		//
-		if offset == min(len(a), len(b)) {
-			break
+		r := 0
+		if len(a) - 1 - offset >= 0 && len(b) - 1 - offset >= 0 {
+			r = binadd(rune(a[len(a)-1-offset]), rune(b[len(b)-1-offset]))
 		}
-		r := binadd(rune(a[len(a)-1-offset]), rune(b[len(a)-1-offset]))
+		if  len(a) - 1 - offset >= 0 && len(b) - 1 - offset < 0 {
+			r = binadd(rune(a[len(a)-1-offset]), '0')
+		}
+		if len(a) -1 -offset <0 && len(b) -1 -offset >=0 {
+			r = binadd('0', rune(b[len(b)-1-offset]))
+		}
+		
 		if r == 2 {
 			if rarr[i] == 1 {
 				rarr[i] = 1
@@ -29,8 +36,26 @@ func addBinary(a, b string) []int {
 		}
 		offset++
 	}
-	return rarr
+	return arrToStr(rarr)
 
+}
+
+func arrToStr(arr []int) string {
+	s := ""
+	init0 := false
+	for i:= 0;i<len(arr); i++ {
+		if arr[i] == 1 {
+			init0 = true
+		}
+		if init0 {
+			s = s + string(48 + arr[i])
+		}
+		
+	}
+	if s == "" {
+		return "0"
+	}
+	return s
 }
 
 func max(a, b int) int {

@@ -1,13 +1,14 @@
 package solution
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 var cases = []struct {
-	name string
+	name   string
 	inputs []string
+	mwidth int
 	expect []string
 }{
 	{
@@ -21,6 +22,7 @@ var cases = []struct {
 			"text",
 			"justification.",
 		},
+		16,
 		[]string{
 			"This    is    an",
 			"example  of text",
@@ -37,19 +39,41 @@ var cases = []struct {
 			"shall",
 			"be",
 		},
+		16,
 		[]string{
 			"What   must   be",
 			"acknowledgment  ",
 			"shall be        ",
 		},
 	},
+	{
+		"test 3",
+		[]string{
+			"Listen",
+			"to",
+			"many,",
+			"speak",
+			"to",
+			"a",
+			"few.",
+		},
+		6,
+		[]string{
+			"Listen",
+			"to    ",
+			"many, ",
+			"speak ",
+			"to   a",
+			"few.  ",
+		},
+	},
 }
 
 func TestSolution(t *testing.T) {
-for _, c := range cases {
-	got := fullJustify(c.inputs, 16)
-	if !reflect.DeepEqual(c.expect, got) {
-		t.Fatalf("%s case failed by %v", c.name, got)
+	for _, c := range cases {
+		got := fullJustify(c.inputs, c.mwidth)
+		if !reflect.DeepEqual(c.expect, got) {
+			t.Fatalf("%s case failed by %v", c.name, got)
+		}
 	}
-}
 }

@@ -5,26 +5,27 @@ func minWindow(s string, t string) string {
 	flag := 0
 	shortest := len(s)
 	ans := ""
-	for left < len(s) {
+	for left < len(s) && right <= len(s) {
 		// slide right
-		if flag == 0 {
-			right++
-		} else {
-			left++
-		}
+
 		if left == len(s) || right == len(s) {
 			break
 		}
 		// test substr
 		r := testSubstr(s[left:right+1], t)
 		if r {
-			if right-left < shortest {
+			if right-left <= shortest {
 				ans = s[left : right+1]
 				shortest = len(ans)
 			}
 			flag = 1
 		} else {
 			flag = 0
+		}
+		if flag == 0 {
+			right++
+		} else {
+			left++
 		}
 
 	}
@@ -33,6 +34,10 @@ func minWindow(s string, t string) string {
 
 func testSubstr(s, t string) bool {
 	count := make([]int, len(t))
+	// remove duplicate
+
+	// test length
+
 	for _, c := range s {
 		for i, k := range t {
 			if c == k {

@@ -16,6 +16,8 @@ func findTheLongestSubstring(s string) int {
 			vcount[4]++
 		}
 	}
+	i, j := 0, len(s)-1
+	
 
 }
 

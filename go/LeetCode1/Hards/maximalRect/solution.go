@@ -33,13 +33,13 @@ func stackHelper(heights []int) int {
 	for i, n := range heights {
 		for stack[len(stack)-1] != -1 && heights[stack[len(stack)-1]] >= n {
 			maxarea = max(maxarea, heights[stack[len(stack)-1]]*(len(heights)-stack[len(stack)-2]-1))
-			stack = stack[:len(stack)]
+			stack = stack[:len(stack)-1]
 		}
 		stack = append(stack, i)
 	}
 	for stack[len(stack)-1] != -1 {
 		maxarea = max(maxarea, heights[stack[len(stack)-1]]*(len(heights)-stack[len(stack)-2]-1))
-		stack = stack[:len(stack)]
+		stack = stack[:len(stack)-1]
 	}
 	return maxarea
 }

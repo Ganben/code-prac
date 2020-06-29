@@ -21,4 +21,5 @@ func generate(numRows int) [][]int {
 		copy(rows, tmp)
 		res = append(res, tmp)
 	}
+	return res
 }

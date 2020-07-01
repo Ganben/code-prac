@@ -19,15 +19,17 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 	n := len(wordList)
 	edges := make([][]int, len(wordList))
 	for i := 0; i < n; i++ {
-		if transforCheck(wordList[i], wordList[j]) {
-			edges[i] = append(edges[i], j)
-			edges[j] = append(edges[j], i)
+		for j := i + 1; j < n; j++ {
+			if transforCheck(wordList[i], wordList[j]) {
+				edges[i] = append(edges[i], j)
+				edges[j] = append(edges[j], i)
+			}
 		}
 	}
 
 	res := [][]string{}
 	cost := make([]int, n)
-	queue := [][]int([]int(ids[beginWord]))
+	queue := [][]int{[]int{ids[beginWord]}}
 	for i := 0; i < n; i++ {
 		cost[i] = math.MaxInt32
 	}
@@ -43,12 +45,12 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 			res = append(res, tmp)
 		} else {
 			for _, to := range edges[last] {
-				if cost[last] + 1 <= cost[to] {
+				if cost[last]+1 <= cost[to] {
 					cost[to] = cost[last] + 1
 					tmp := make([]int, len(now))
 					copy(tmp, now)
 					tmp = append(tmp, to)
-					queue = append9queue, tmp)
+					queue = append(queue, tmp)
 				}
 			}
 		}
@@ -57,9 +59,9 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 }
 
 func transforCheck(from, to string) bool {
-	for i := 0; i < len(from); i ++ {
+	for i := 0; i < len(from); i++ {
 		if from[i] != to[i] {
-			return from[i + 1:] == to[i + 1:]
+			return from[i+1:] == to[i+1:]
 		}
 	}
 	return false

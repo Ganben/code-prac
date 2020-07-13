@@ -4,7 +4,7 @@ func insertionSortList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	dummy := &ListNode{-1}
+	dummy := &ListNode{-1, nil}
 	dummy.Next = head
 	pre := dummy.Next
 
@@ -25,6 +25,7 @@ func insertionSortList(head *ListNode) *ListNode {
 		if pi == pre {
 			pre = pre.Next
 		}
-		return dummy.Next
+
 	}
+	return dummy.Next
 }

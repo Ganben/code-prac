@@ -6,40 +6,44 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-var ans bool
+var ans []bool
 
 func isSameTree(p *TreeNode, q *TreeNode) bool {
 	// recurrent walker
-	ans = true
+	ans = []bool{}
 	nodeEqual(p, q)
-	return ans
+	for _, v := range ans {
+		if v == false {
+			return false
+		}
+	}
+
+	return true
 }
 
 func nodeEqual(p *TreeNode, q *TreeNode) {
 	if p != nil && q != nil {
 		if p.Val != q.Val {
-			ans = false
+			ans = append(ans, false)
 			return
 		} else {
 			// left
 			if p.Left != nil && q.Left != nil {
 				nodeEqual(p.Left, q.Left)
 			} else {
-				if p.Left == nil && q.Left == nil {
-					return
+				if !(p.Left == nil && q.Left == nil) {
+					ans = append(ans, false)
 				}
-				ans = false
-				return
+
 			}
 			// right
 			if p.Right != nil && q.Right != nil {
 				nodeEqual(p.Right, q.Right)
 			} else {
-				if p.Right == nil && q.Right == nil {
-					return
+				if !(p.Right == nil && q.Right == nil) {
+					ans = append(ans, false)
 				}
-				ans = false
-				return
+
 			}
 		}
 
@@ -47,7 +51,7 @@ func nodeEqual(p *TreeNode, q *TreeNode) {
 		if p == nil && q == nil {
 			return
 		}
-		ans = false
+		ans = append(ans, false)
 		return
 	}
 

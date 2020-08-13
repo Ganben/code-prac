@@ -2,13 +2,19 @@ package RemoveLinkedListEle
 
 func removeElements(head *ListNode, val int) *ListNode {
 	cur1, cur2 := &ListNode{}, &ListNode{}
-
+	if head == nil {
+		return nil
+	}
 	cur1 = head
 	// cur2 = head.Next
 
 	// first no val
 	for cur1.Val == val {
-		cur1 = cur1.Next
+		if cur1.Next != nil {
+			cur1 = cur1.Next
+		} else {
+			return nil
+		}
 	}
 	origin := cur1
 	cur2 = cur1.Next

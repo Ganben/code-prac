@@ -10,8 +10,8 @@ func rob(nums []int) int {
 	nums1 := make([]int, len(nums)-1)
 	nums2 := make([]int, len(nums)-1)
 	for i, _ := range nums {
-		if i > 0 && i < len(nums)-1 {
-			nums1[i] = nums[i-1]
+		if i > 0 && i <= len(nums)-1 {
+			nums1[i-1] = nums[i]
 		}
 		if i < len(nums)-1 {
 			nums2[i] = nums[i]

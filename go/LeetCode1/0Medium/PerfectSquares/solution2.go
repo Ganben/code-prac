@@ -12,7 +12,7 @@ func numSquaresBFS(n int) int {
 		level++
 		nextQueue := map[int]bool{}
 		for remainder, _ := range queue {
-			for square := range squareNums {
+			for _, square := range squareNums {
 				if remainder == square {
 					return level
 				} else if remainder < square {

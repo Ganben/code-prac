@@ -14,7 +14,7 @@ func isPowerOfFour(n int) bool {
 			return true
 		}
 	}
-	return true
+	return false
 }
 
 func main() {

@@ -13,7 +13,7 @@ type KthLargest struct {
 
 func Constructor(k int, nums []int) KthLargest {
 	arrs := make([]int, k)
-	sort.Ints(nums)
+	sort.Ints(nums) //very slow
 	fmt.Printf("%v\n", nums)
 	for i := 0; i < k; i++ {
 		if i > len(nums)-1 {

@@ -47,7 +47,7 @@ return res
 }
 
 
-var ansMap map[string]bool
+// var ansMap map[string]bool
 
 func removeInvalidParentheses(s string) []string {
 	if s == "" {

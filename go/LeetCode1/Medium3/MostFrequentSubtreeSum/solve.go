@@ -6,9 +6,10 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-var hMap map[int]int
+//
 
 func findFrequentTreeSum(root *TreeNode) []int {
+	var hMap map[int]int
 	ret := make([]int, 0)
 	if root == nil {
 		return ret
@@ -19,7 +20,7 @@ func findFrequentTreeSum(root *TreeNode) []int {
 		switch {
 		case len(ret) == 0:
 			ret = append(ret, k)
-		case v > m[ret[0]]:
+		case v > hMap[ret[0]]:
 			ret = ret[:1]
 			ret[0] = k
 		case v == hMap[ret[0]]:
